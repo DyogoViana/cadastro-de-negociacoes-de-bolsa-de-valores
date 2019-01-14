@@ -1,0 +1,1 @@
+# cadastro-de-negociacoes-de-bolsa-de-valores
