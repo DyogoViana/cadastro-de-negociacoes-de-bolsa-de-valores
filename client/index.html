@@ -64,6 +64,16 @@
     </table>
 
     <!-- JavaScript -->
-    <script src="js/index.js"></script>
+    <script src="app/domain/negociacao/Negociacao.js"></script>
+    <script>
+        
+        var n1 = new Negociacao (new Date (), 5, 700); // Data, quantidade, valor.
+        
+        console.log (n1.getQuantidade());
+        console.log (n1.getData());
+        console.log (n1.getValor());
+        console.log (n1.getVolume());
+
+    </script>
 </body>
 </html>
