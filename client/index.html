@@ -67,15 +67,14 @@
     <script src="app/domain/negociacao/Negociacao.js"></script>
     <script>
         
-        var hoje = new Date ();
+        let hoje = new Date();
+        let n1 = new Negociacao(hoje, 5, 700); // Data, quantidade, valor.
 
-        var n1 = new Negociacao (hoje, 5, 700); // Data, quantidade, valor.
+        console.log(n1.data);
 
-        console.log (n1.data);
+        n1.data.setDate(11);
 
-        n1.data.setDate (11);
-
-        console.log (n1.data);
+        console.log(n1.data);
 
     </script>
 </body>
