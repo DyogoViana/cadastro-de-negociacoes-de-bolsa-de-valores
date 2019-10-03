@@ -38,9 +38,7 @@ class NegociacoesView {
                 // totalizar o volume.
                 <td colspan="3" style="text-align:right"><b>Total</b></td>
                 <td>
-                    ${model.negociacoes.reduce(function(total, n) {
-                        return total + n.volume;
-                    }, 0.0)}
+                    ${ model.negociacoes.reduce((total, n) => total + n.volume, 0.0) }
                 </td>
             </tfoot>
         </table>
