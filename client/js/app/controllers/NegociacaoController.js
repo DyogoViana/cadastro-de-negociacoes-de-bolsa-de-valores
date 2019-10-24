@@ -4,7 +4,6 @@
 class NegociacaoController {
     
     constructor() {
-
         let $ = document.querySelector.bind(document);
     
         this._inputData = $("#data");
@@ -21,7 +20,6 @@ class NegociacaoController {
     }
 
     adiciona(event) {
-
         event.preventDefault();
         
         this._listaNegociacoes.adiciona(this._criaNegociacao()); // Lista as negociações.
@@ -33,6 +31,15 @@ class NegociacaoController {
         this._limpaFormulario();
     }
 
+    // Apaga a tabela de negociações.
+    apaga() {  
+        this._listaNegociacoes.esvaziaTabela();
+        this._negociacoesView.update(this._listaNegociacoes);
+
+        this._mensagem.texto = "Negociações apagadas com sucesso.";
+        this._mensagemView.update(this._mensagem);
+    }
+
     //cria uma negociação.
     _criaNegociacao() {
         return new Negociacao (
@@ -42,7 +49,7 @@ class NegociacaoController {
         );
     }
 
-    // Limpa o formulário e o foco vai para a data.
+    // Limpa o formulário e o foco vai para a data, após adicionar uma negociação.
     _limpaFormulario() {
         this._inputData.value = "";
         this._inputQuantidade.value = 1;

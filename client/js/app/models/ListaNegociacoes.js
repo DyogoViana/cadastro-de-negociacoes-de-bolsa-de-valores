@@ -17,6 +17,10 @@ class ListaNegociacoes {
     get negociacoes() {
         return [].concat(this._negociacoes);
     }
+
+    esvaziaTabela() {
+        this._negociacoes = [];
+    }
 }
 
 
