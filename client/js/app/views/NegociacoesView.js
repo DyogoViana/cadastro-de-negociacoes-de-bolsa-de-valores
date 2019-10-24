@@ -3,10 +3,10 @@
 
 
 
-class NegociacoesView {
+class NegociacoesView extends View {
 
     constructor(elemento) {
-        this._elemento = elemento; // responsável por receber o template.
+        super (elemento);
     }
 
     _template(model) {
@@ -44,11 +44,6 @@ class NegociacoesView {
         </table>
         `;
     }
-
-    // Pega o elemento do DOM e atualiza a tabela -- _template.
-    update(model) {
-        this._elemento.innerHTML = this._template(model);
-    }
 }
 
 
@@ -66,3 +61,5 @@ class NegociacoesView {
 // Por ser uma arrow function, pode retirar o 'return' e as chaves. 
 
 // Immediately-invoked function expression - "IIFE" -  ou a função imediata.
+
+// NegociacoesView extends View === 'NegociacoesView' herda as propriedades do 'View', assim n precisa repetir código. 
