@@ -72,25 +72,5 @@
         let negociacaoController = new NegociacaoController(); // deixa acessível no HTML.
     </script>
 
-    <script>
-
-        let lista = new Proxy(new ListaNegociacoes(), {
-            
-            get(target, property, receiver) {
-                
-                if (["adiciona", "esvazia"].includes(property) && typeof(target[property]) == typeof(Function)) {
-                     return function() {
-                         console.log(`A propriedade - "${property}" - foi interceptada.`);
-                         Reflect.apply(target[property], target, arguments);
-                     }
-                }
- 
-                return Reflect.get(target, property, receiver);
-             }
-           
-        });
-
-    </script>
-
 </body>
 </html>

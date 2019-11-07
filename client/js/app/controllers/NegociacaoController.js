@@ -10,10 +10,24 @@ class NegociacaoController {
         this._inputQuantidade = $("#quantidade");
         this._inputValor = $("#valor");
 
-        // Usar o proxy.
-        
-        // this._listaNegociacoes = new ListaNegociacoes(model =>
-        //     this._negociacoesView.update(model));
+        // Proxy para criação da trap no 'adiciona' e 'esvazia'.
+        let self = this;
+        this._listaNegociacoes = new Proxy(new ListaNegociacoes(), {
+            
+            get(target, property, receiver) {
+                
+                if (["adiciona", "esvazia"].includes(property) && typeof(target[property]) == typeof(Function)) {
+                     return function() {
+                         console.log(`A propriedade - "${property}" - foi interceptada usando Proxy.`);
+                         Reflect.apply(target[property], target, arguments);
+                         self._negociacoesView.update(target);
+                     }
+                }
+ 
+                return Reflect.get(target, property, receiver);
+             }
+           
+        });
 
         this._negociacoesView = new NegociacoesView($("#negociacoesView"));
         this._negociacoesView.update(this._listaNegociacoes);
