@@ -11,13 +11,22 @@ class ProxyFactory {
                 
                 if (propriedades.includes(property) && typeof(target[property]) == typeof(Function)) {
                     return function() {
-                        console.log(`A propriedade - "${property}" - foi interceptada usando Proxy.`);
+                        console.log(`A propriedade "${property}" foi interceptada usando Proxy.`);
                         Reflect.apply(target[property], target, arguments);
                         return acao(target);
                     }
                 }
 
                 return Reflect.get(target, property, receiver);
+            },
+
+            set (target, property, value, receiver) {
+                if (propriedades.includes(property)) {
+                    target[property] = value;
+                    acao(target);
+                }
+
+                return Reflect.set(target, property, value, receiver);
             }
         })
     }
