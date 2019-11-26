@@ -11,49 +11,31 @@ class NegociacaoController {
         this._inputValor = $("#valor");
 
         // Proxy para criação da trap no 'adiciona' e 'esvazia'.
-        let self = this;
-        this._listaNegociacoes = new Proxy(new ListaNegociacoes(), {
-            
-            get(target, property, receiver) {
-                
-                if (["adiciona", "esvazia"].includes(property) && typeof(target[property]) == typeof(Function)) {
-                     return function() {
-                         console.log(`A propriedade - "${property}" - foi interceptada usando Proxy.`);
-                         Reflect.apply(target[property], target, arguments);
-                         self._negociacoesView.update(target);
-                     }
-                }
- 
-                return Reflect.get(target, property, receiver);
-             }
-           
-        });
+        this._listaNegociacoes = ProxyFactory.novaProxy(
+            new ListaNegociacoes(), ["adiciona", "esvazia"], model => this._negociacoesView.update(model));
 
         this._negociacoesView = new NegociacoesView($("#negociacoesView"));
         this._negociacoesView.update(this._listaNegociacoes);
 
-        this._mensagem = new Mensagem();
+        this._mensagem = ProxyFactory.novaProxy(
+            new Mensagem(), ["texto"], model => this._mensagemView.update(model));
+
         this._mensagemView = new MensagemView($("#mensagemView"));
-        this._mensagemView.update(this._mensagem);
+        // this._mensagemView.update(this._mensagem);
     }
 
     adiciona(event) {
         event.preventDefault();
         
         this._listaNegociacoes.adiciona(this._criaNegociacao()); // Lista as negociações.
-
         this._mensagem.texto = "Negociação adicionada com sucesso.";
-        this._mensagemView.update(this._mensagem);
-
         this._limpaFormulario();
     }
 
     // Apaga a tabela de negociações.
-    apaga() {  
-        this._listaNegociacoes.esvaziaTabela();
-
+    apaga() {
+        this._listaNegociacoes.esvazia();
         this._mensagem.texto = "Negociações apagadas com sucesso.";
-        this._mensagemView.update(this._mensagem);
     }
 
     //cria uma negociação.
