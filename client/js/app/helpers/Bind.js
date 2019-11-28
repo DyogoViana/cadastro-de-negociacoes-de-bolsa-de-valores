@@ -4,7 +4,7 @@
 
 class Bind {
 
-    constructor(model, view, properties) {
+    constructor(model, view, ...properties) {
         
         let proxy = ProxyFactory.novaProxy(model, properties, model => {
             view.update(model);

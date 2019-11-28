@@ -4,29 +4,27 @@
 class NegociacaoController {
     
     constructor() {
+
         let $ = document.querySelector.bind(document);
     
         this._inputData = $("#data");
         this._inputQuantidade = $("#quantidade");
         this._inputValor = $("#valor");
-        
-        this._negociacoesView = new NegociacoesView($("#negociacoesView"));
 
         // Proxy para criação da trap no 'adiciona' e 'esvazia'.
         this._listaNegociacoes = new Bind(
             new ListaNegociacoes(), // modelo
-            this._negociacoesView,
-            ["adiciona", "esvazia"]); // Condição para atualizar. Prop que vão disparar a 'View'.
+            new NegociacoesView($("#negociacoesView")), // view.
+            "adiciona", "esvazia"); // Condição para atualizar. Props que vão disparar a 'View'.
 
         // Mensagem que aparece ao usuário.
-        this._mensagemView = new MensagemView($("#mensagemView"));
-
         this._mensagem = new Bind(
             new Mensagem(), // modelo.
-            this._mensagemView, 
-            ["texto"]); // Condição para atualizar. Prop que vão disparar a 'View'.
+            new MensagemView($("#mensagemView")), // view.
+            "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
     }
 
+    // Adiciona uma nova lista de negociação.
     adiciona(event) {
         event.preventDefault();
         
