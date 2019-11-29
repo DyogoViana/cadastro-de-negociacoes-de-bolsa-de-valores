@@ -12,8 +12,9 @@ class ProxyFactory {
                 if (propriedades.includes(property) && typeof(target[property]) == typeof(Function)) {
                     return function() {
                         console.log(`A propriedade "${property}" foi interceptada usando Proxy.`);
-                        Reflect.apply(target[property], target, arguments);
-                        return acao(target);
+                        let retorno = Reflect.apply(target[property], target, arguments);
+                        acao(target);
+                        return retorno;
                     }
                 }
 
