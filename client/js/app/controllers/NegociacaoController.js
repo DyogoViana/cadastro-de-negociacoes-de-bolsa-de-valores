@@ -51,10 +51,18 @@ class NegociacaoController {
         
         xhr.onreadystatechange = () => {
             if (xhr.readyState == 4) {
+
                 if (xhr.status == 200) {
-                    console.log("Obtendo as negociação do servidor.")
+                    JSON.parse(xhr.responseText)
+                     .map(objeto => new Negociacao(new Date(objeto.data), objeto.quantidade, objeto.valor))
+                     .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+
+                     console.log("Obtendo as negociação do servidor.");
+                     this._mensagem.texto = "Negociações importadas com sucesso";
                 } else {
-                    console.log("NÃO foi possível obter as negociações do servidor.")
+                    console.log(xhr.responseText);
+                    console.log("NÃO foi possível obter as negociações do servidor.");
+                    this._mensagem.texto = "NÃO foi possível obter as negociações.";
                 }
             }
         };
