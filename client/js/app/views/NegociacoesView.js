@@ -51,14 +51,18 @@ class NegociacoesView extends View {
 
 
 
-// Anotações: 
 
-// O 'innerHTML' será responsável por converter as strings em elementos do DOM. Isto será inserido com filho da <div>.
+/*
+    # Anotações: 
 
-// 'Join' = Concatena todos os dados do array e vira uma string.
+    - O 'innerHTML' será responsável por converter as strings em elementos do DOM. Isto será inserido com filho da <div>.
 
-// Por ser uma arrow function, pode retirar o 'return' e as chaves. 
+    - 'Join' = Concatena todos os dados do array e vira uma string.
 
-// Immediately-invoked function expression - "IIFE" -  ou a função imediata.
+    - Por ser uma arrow function, pode retirar o 'return' e as chaves. 
 
-// NegociacoesView extends View === 'NegociacoesView' herda as propriedades do 'View', assim n precisa repetir código. 
+    - Immediately-invoked function expression - "IIFE" -  ou a função imediata.
+
+    - NegociacoesView extends View === 'NegociacoesView' herda as propriedades do 'View', assim n precisa repetir código. 
+ 
+ */

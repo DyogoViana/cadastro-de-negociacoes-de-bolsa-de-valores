@@ -25,8 +25,13 @@ class Negociacao {
 
 
 
-//Dicas:
 
-// o 'underline' indica ao programador que não pode ser alterada a propriedade.
 
-// 'getData' = método acessadores (página 27).
+/*
+    # Anotações:
+    
+    - o 'underline' indica ao programador que não pode ser alterada a propriedade.
+
+    - 'getData' = método acessadores.
+
+*/

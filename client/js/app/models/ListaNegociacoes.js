@@ -34,5 +34,10 @@ class ListaNegociacoes {
 
 
 
-//Dicas e anexos:
-// O prefixo _ (underline) para indicar que a lista não deve ser alterada.
+
+/*
+    # Anotações:
+
+    - O prefixo _ (underline) para indicar que a lista não deve ser alterada.
+
+*/

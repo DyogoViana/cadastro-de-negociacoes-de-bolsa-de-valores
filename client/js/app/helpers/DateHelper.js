@@ -26,5 +26,10 @@ class DateHelper {
 }
 
 
-// Anotações:
-// Agora com o static o 'DateHelper' pode ser chamado como uma class. Assim evita repetição.
+
+/* 
+    # Anotações:
+
+    - Agora com o static o 'DateHelper' pode ser chamado como uma class. Assim evita repetição.
+
+*/
