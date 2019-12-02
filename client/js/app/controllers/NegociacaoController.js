@@ -51,8 +51,9 @@ class NegociacaoController {
 
     // Apaga a tabela de negociações.
     apaga() {
-        this._listaNegociacoes.esvazia();
+        this._listaNegociacoes.esvaziaTabela();
         this._mensagem.texto = "Negociações apagadas com sucesso.";
+        console.log("Negociações apagadas com sucesso.");  
     }
 
     //cria uma negociação.
