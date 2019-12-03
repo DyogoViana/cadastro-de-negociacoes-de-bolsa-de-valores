@@ -39,7 +39,7 @@
     
     <div class="text-center">
         <!-- botão -->
-        <button id="botao-importa" onclick="negociacaoController.importaNegociacoes()"class="btn btn-primary text-center" type="button">
+        <button id="botao-importa" onclick="negociacaoController.importaNegociacoes()" class="btn btn-primary text-center" type="button">
             Importar Negociações
         </button>
         <!-- botão -->
@@ -71,6 +71,7 @@
 
     <script src="js/app/services/ProxyFactory.js"></script>
     <script src="js/app/services/NegociacaoService.js"></script>
+    <script src="js/app/services/HttpService.js"></script>
 
     <script>
         let negociacaoController = new NegociacaoController(); // deixa acessível no HTML.
