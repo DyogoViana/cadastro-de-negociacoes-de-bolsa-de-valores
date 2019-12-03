@@ -33,20 +33,21 @@ class NegociacaoController {
         this._limpaFormulario();
     }
 
-    // Importando negociações via Ajax.
+    // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
     importaNegociacoes() {
+
         let service = new NegociacaoService();
 
-        service.obterNegociacoesDaSemana((erro, negociacoes) => {
-
-            if (erro) {
-                this._mensagem.texto = erro;
-                return;
-            } else {
-                negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
-                this._mensagem.texto ="Negociações importadas com sucesso.";
-            }
-        });
+        Promise.all([
+            service.obterNegociacoesDaSemana(),
+            service.obterNegociacoesDaSemanaAnterior(),
+            service.obterNegociacoesDaSemanaRetrasada()
+        ]).then(negociacoes => {
+            negociacoes
+             .reduce((arrayFlat, array) => arrayFlat.concat(array), [])
+             .forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = "Negociações importadas com sucesso.";
+        }).catch(erro => this._mensagem.texto = erro);
     }
 
     // Apaga a tabela de negociações.
