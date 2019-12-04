@@ -39,11 +39,11 @@ class NegociacaoController {
         let service = new NegociacaoService();
         service
          .obterNegociacoes()
-         .then(negociacoes => negociacoes.forEach(negociacao => {
-           this._listaNegociacoes.adiciona(negociacao);
-           this._mensagem.texto = "Negociações do período importadas."  
-         }))
-         .catch(erro => this._mensagem.texto = erro);
+         .then(negociacoes => {
+            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+            this._mensagem.texto = "Negociações do período importadas com sucesso."; 
+            console.log("Negociações do perído importadas com sucesso, usando Promise."); 
+         }).catch(erro => this._mensagem.texto = erro);
     }
 
     // Apaga a tabela de negociações.
