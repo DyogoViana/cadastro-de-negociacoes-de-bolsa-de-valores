@@ -72,22 +72,22 @@ class NegociacaoService {
 
         // Fleta as negociações de uma forma linear e chamada na 'importaNegociacoes'.
         obterNegociacoes() {
-            return new Promise((resolve, reject) => { // deixei esse para depois. 
 
-                return Promise.all([  
-                    this.obterNegociacoesDaSemana(),
-                    this.obterNegociacoesDaSemanaAnterior(),
-                    this.obterNegociacoesDaSemanaRetrasada()
-                ]).then(periodos => {
-                    let negociacoes = periodos
-                        .reduce((dados, periodo) => dados.concat(periodo), [])
-                        .map(dado => new Negociacao(new Date(dado.data), dado.quantidade, dado.valor));
-                    
-                    resolve(negociacoes);
-                }).catch(erro => reject(erro));
-            });
+            return Promise.all([  
+                this.obterNegociacoesDaSemana(),
+                this.obterNegociacoesDaSemanaAnterior(),
+                this.obterNegociacoesDaSemanaRetrasada()
+            ]).then(periodos => {
+                let negociacoes = periodos.reduce((dados, periodo) => dados.concat(periodo), []);
+                return negociacoes;
+            }).catch(erro => { throw new Error(erro) });
         }
     }
+    
+
+
+
+
     
 /*
     # Anotações:
