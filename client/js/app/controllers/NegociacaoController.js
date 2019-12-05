@@ -15,13 +15,23 @@ class NegociacaoController {
         this._listaNegociacoes = new Bind(
             new ListaNegociacoes(), // modelo
             new NegociacoesView($("#negociacoesView")), // view.
-            "adiciona", "esvazia"); // Condição para atualizar. Props que vão disparar a 'View'.
+            "adiciona", "esvaziaTabela", "ordena", "inverteOrdem"); // Condição para atualizar. Props que vão disparar a 'View'.
 
         // Mensagem que aparece ao usuário.
         this._mensagem = new Bind(
             new Mensagem(), // modelo.
             new MensagemView($("#mensagemView")), // view.
             "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
+    }
+
+    // Ordena a tabela. 
+    ordena(coluna) {
+        if (this._ordemAtual == coluna) {
+            this._listaNegociacoes.inverteOrdem();
+        } else {
+            this._listaNegociacoes.ordena((a, b) => a[coluna] -b[coluna]);
+        }
+        this._ordemAtual == coluna;
     }
 
     // Adiciona uma nova lista de negociação.
@@ -84,4 +94,7 @@ class NegociacaoController {
 
     - item - indice % 2 -- ler item, menos indice, módulo dois.
 
+    - explicando a ordem das colunas: 
+        lista.sort((a, b) => a - b);  
+        Se o valor retornado for 0 não há alteração a ser feita, se o valor retornado for positivo, 'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
 */
