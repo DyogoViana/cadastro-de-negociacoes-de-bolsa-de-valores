@@ -31,7 +31,7 @@ class NegociacaoController {
         } else {
             this._listaNegociacoes.ordena((a, b) => a[coluna] -b[coluna]);
         }
-        this._ordemAtual == coluna;
+        this._ordemAtual = coluna;
     }
 
     // Adiciona uma nova lista de negociação.
