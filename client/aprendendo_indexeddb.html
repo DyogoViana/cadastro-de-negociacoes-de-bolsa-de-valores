@@ -9,13 +9,18 @@
 <body>
     <script>
 
-        var openRequest = window.indexedDB.open("cursoAlura", 1); // abre o banco.
+        var connection;
+        var openRequest = window.indexedDB.open("cursoAlura", 2); // abre o banco.
 
         openRequest.onupgradeneeded = event => {
+            var minhaConnection = event.target.result;
+            minhaConnection.createObjectStore("negociacoes");
+
             console.log("Cria ou altera um banco já existente.");
         };
 
         openRequest.onsuccess = event => {
+            connection = event.target.result;
             console.log("Conexão obtida com sucesso.");
         };
 
@@ -27,3 +32,15 @@
     </script>
 </body>
 </html>
+
+
+
+
+<!-- 
+
+    # Anortações:
+
+    -  'e.target.result' é uma instância de IDBDatabase.
+
+
+ -->
