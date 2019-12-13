@@ -55,6 +55,38 @@
             };
         }
 
+         function listaTodos() {
+
+            let transaction = connection.transaction(['negociacoes'],'readwrite');
+            let store = transaction.objectStore("negociacoes");
+            let negociacoes = [];
+
+            let cursor = store.openCursor();
+
+            cursor.onsuccess = e => {
+
+                 let atual = e.target.result;
+
+                 if(atual) {
+                     let dado = atual.value;
+                     negociacoes.push(new Negociacao(
+                         new Date(dado._data), 
+                         dado._quantidade, 
+                         dado._valor
+                    ));
+
+                     atual.continue();
+
+                 } else { 
+
+                     console.log(negociacoes);
+                 }
+            };
+
+            cursor.onerror = e => {
+                console.log('Error:' + e.target.error.name);
+            };
+        }
 
     </script>
 </body>
