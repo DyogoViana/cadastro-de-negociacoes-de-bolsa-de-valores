@@ -3,10 +3,12 @@
 
 var ConnectionFactory = (function () {
 
-    var store = ["negociacoes"];
-    var dataBaseName = "Banco de Dados para Cadastros da Bolsa de Valores";
-    var version = 8;
+    const store = ["negociacoes"];
+    const dataBaseName = "Banco de Dados para Cadastros da Bolsa de Valores";
+    const version = 8;
+
     var connection = null;
+    var close = null;
 
 
     return class ConnectionFactory {
@@ -25,9 +27,15 @@ var ConnectionFactory = (function () {
                 };
                 
                 openRequest.onsuccess = event => { // recebe conexão já existente ou uma que acabou de ser criada
-                    if (!connection) connection = event.target.result;
-                    resolve(event.target.result);
-                };
+                    if (!connection) {
+                        connection = event.target.result;
+                        close = connection.close.bind(connection);
+                        connection.close = () => {
+                            throw new Error("Você não pode fechar diretamente a conexão.")
+                        };
+                    }
+                    resolve(connection);
+                }
                 
                 openRequest.onerror = event => {
                     console.log(event.target.error);
@@ -49,6 +57,14 @@ var ConnectionFactory = (function () {
             });
 
         }
+
+        // Fecha a conexão.
+        static closeConnection() {
+            if (connection) {
+                close();
+                connection = null;
+            }
+        }
     }
 }) ();
 
@@ -58,7 +74,8 @@ var ConnectionFactory = (function () {
 
 
 /*
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+---------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
 
 
     # Anotações:
@@ -67,6 +84,8 @@ var ConnectionFactory = (function () {
 
     - Foi criado uma função 'autoinvocada'/função anônima, Simultaneamente, ela será carregada e executada. Deixando assim a variável 'Connectionfactory' no escopo global.
 
+    - Para mudar o método 'close', foi usado o 'Monkey Patch', que consiste forçarmos a modificação de uma API. 
 
---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-*/
+
+---------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------*/

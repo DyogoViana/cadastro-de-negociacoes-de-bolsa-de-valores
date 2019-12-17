@@ -53,6 +53,10 @@ class NegociacoesView extends View {
 
 
 /*
+---------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
+
+
     # Anotações: 
 
     - O 'innerHTML' será responsável por converter as strings em elementos do DOM. Isto será inserido com filho da <div>.
@@ -65,4 +69,7 @@ class NegociacoesView extends View {
 
     - NegociacoesView extends View === 'NegociacoesView' herda as propriedades do 'View', assim n precisa repetir código. 
  
+
+---------------------------------------------------------------------------------------------
+----------------------------------------------------------------------------------------------
  */
