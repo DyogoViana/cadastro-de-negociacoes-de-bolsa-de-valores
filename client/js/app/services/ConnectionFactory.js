@@ -30,7 +30,7 @@ var ConnectionFactory = (function () {
                     if (!connection) {
                         connection = event.target.result;
                         close = connection.close.bind(connection);
-                        connection.close = () => {
+                        connection.close = function() {
                             throw new Error("Você não pode fechar diretamente a conexão.")
                         };
                     }
