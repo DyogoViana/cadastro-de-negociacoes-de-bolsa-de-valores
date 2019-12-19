@@ -5,7 +5,7 @@ var ConnectionFactory = (function () {
 
     const store = ["negociacoes"];
     const dataBaseName = "Banco de Dados para Cadastros da Bolsa de Valores";
-    const version = 8;
+    const version = 9;
 
     var connection = null;
     var close = null;
