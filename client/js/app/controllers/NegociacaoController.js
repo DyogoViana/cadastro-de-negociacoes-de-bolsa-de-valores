@@ -33,6 +33,7 @@ class NegociacaoController {
                  this._listaNegociacoes.adiciona(negociacao);
              });
          })
+         .catch(erro => this.mensagem.texto = erro);
     }
 
     // Ordena a tabela. 
@@ -61,6 +62,7 @@ class NegociacaoController {
 
                   this._listaNegociacoes.adiciona(negociacao); // Cria lista as negociações.
                   this._mensagem.texto = "Negociação adicionada com sucesso.";
+                  console.log("Negociação adicionada com sucesso.");
                   this._limpaFormulario();
               });
          })
@@ -82,11 +84,18 @@ class NegociacaoController {
          .catch(erro => this._mensagem.texto = erro);
     }
 
-    // Apaga a tabela de negociações.
+    // Apaga a tabela de negociações na view e no banco.
     apaga() {
-        this._listaNegociacoes.esvaziaTabela();
-        this._mensagem.texto = "Negociações apagadas com sucesso.";
-        console.log("Negociações apagadas com sucesso.");  
+        ConnectionFactory
+         .getConnection()
+         .then(connection => new NegociacaoDAO(connection))
+         .then(DAO => DAO.apagaTodos())
+         .then(mensagem => {
+
+             this._listaNegociacoes.esvaziaTabela();
+             this._mensagem.texto = mensagem;
+             console.log("Negociações apagadas com sucesso.");  
+         });
     }
 
     //cria uma negociação.

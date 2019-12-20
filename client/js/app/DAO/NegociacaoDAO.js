@@ -62,6 +62,24 @@ class NegociacaoDAO {
             };
         });
     }
+
+    // Apaga a lista de negociações da view e do banco.
+    apagaTodos() {
+        return new Promise((resolve, reject) => {
+
+            let request = this._connection
+             .transaction([this._store], "readwrite")
+             .objectStore(this._store)
+             .clear();
+
+             request.onsuccess = event => resolve("Negociaçõs apagadas com sucesso.");
+
+             request.onerror = event => {
+                 console.log(event.target.error);
+                 reject("Não foi possível remover as negociações.");
+             } 
+        });
+    }
 }
 
 
