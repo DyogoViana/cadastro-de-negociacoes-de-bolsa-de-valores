@@ -22,19 +22,30 @@ class NegociacaoController {
             new Mensagem(), // modelo.
             new MensagemView($("#mensagemView")), // view.
             "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
-
-        // Cria uma conexão e lista as negociações na view.
-        ConnectionFactory
-         .getConnection()
-         .then(connection => new NegociacaoDAO(connection))
-         .then(DAO => DAO.listaTodos())
-         .then(negociacoes => {
-             negociacoes.forEach(negociacao => {
-                 this._listaNegociacoes.adiciona(negociacao);
-             });
-         })
-         .catch(erro => this.mensagem.texto = erro);
-    }
+        
+            
+        this._iniciacaoAutomatica();
+            
+        }
+        
+        _iniciacaoAutomatica() {
+            // Cria uma conexão e lista as negociações na view.
+            ConnectionFactory
+             .getConnection()
+             .then(connection => new NegociacaoDAO(connection))
+             .then(DAO => DAO.listaTodos())
+             .then(negociacoes => {
+                negociacoes.forEach(negociacao => {
+                    this._listaNegociacoes.adiciona(negociacao);
+                });
+             })
+             .catch(erro => this.mensagem.texto = erro);
+            
+            // Imposrta automaticamente a tabela em períodos de tempo determinados.
+            setInterval(() => {
+                this.importaNegociacoes();
+            }, 3000);
+        }
 
     // Ordena a tabela. 
     ordena(coluna) {

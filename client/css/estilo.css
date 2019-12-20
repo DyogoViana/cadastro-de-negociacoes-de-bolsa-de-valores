@@ -1,0 +1,36 @@
+/* estilo.css */
+
+
+
+main {
+    margin-top: 1em;
+    float: left;
+    width: 30%;
+}
+
+aside {
+    margin-top: 1em;
+    float: right;
+    width: 60%;
+}
+
+aside.div {
+    background: rosybrown;
+}
+
+h1.titulo {
+    padding: 1rem;
+    font-weight: 500;
+    background: rgb(238, 238, 238);
+}
+
+h3 {
+    color: rgb(61, 61, 61);
+    border-bottom: 1px solid rgb(61, 61, 61);
+    margin-bottom: 4rem;
+}
+
+#botao-apaga,
+.botao-incluir {
+    font-size: 1.5rem;
+}

@@ -5,53 +5,59 @@
     <title>Cadastro de Negociações de Bolsa de Valores</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="css/estilo.css">
     
 </head>
 
 <body class="container">
     
-    <h1 class="text-center">Negociações</h1>
+    <h1 class="text-center titulo">Cadastro de Negociações da Bolsa de Valores</h1>
 
     <!-- Mensagem da view dando um retorno ao usuário. -->
     <div id="mensagemView"></div>
     
-    <!-- Formulário -->
-    <form class="form" onsubmit="negociacaoController.adiciona(event)">
+    <main>
+
+        <h3>Formulário</h3>
+
+        <!-- Formulário -->
+        <form class="form" onsubmit="negociacaoController.adiciona(event)">
         
-        <div class="form-group">
-            <label for="data">Data</label>
-            <input type="date" id="data" class="form-control" required autofocus/>        
-        </div>    
-        
-        <div class="form-group">
-            <label for="quantidade">Quantidade</label>
-            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required/>
-        </div>
-        
-        <div class="form-group">
-            <label for="valor">Valor</label>
-            <input id="valor" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
-        </div>
-        
-        <!-- botão -->
-        <button class="btn btn-primary" type="submit">Incluir</button>
-    </form>
+            <div class="form-group">
+                <label for="data">Data</label>
+                <input type="date" id="data" class="form-control" required autofocus/>        
+            </div>    
+            
+            <div class="form-group">
+                <label for="quantidade">Quantidade</label>
+                <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required/>
+            </div>
+            
+            <div class="form-group">
+                <label for="valor">Valor</label>
+                <input id="valor" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
+            </div>
+            
+            <!-- botão de 'incluir' lista de negociações -->
+            <button class="botao-incluir btn btn-primary btn-sm btn-block" type="submit">Incluir uma lista de negociações</button>
+        </form>
+        <br>
+        <br>
+    </main>
     
-    <div class="text-center">
-        <!-- botão -->
-        <button id="botao-importa" onclick="negociacaoController.importaNegociacoes()" class="btn btn-primary text-center" type="button">
-            Importar Negociações
-        </button>
-        <!-- botão -->
-        <button id="botao-apaga" onclick="negociacaoController.apaga()" class="btn btn-primary text-center" type="button">
-            Apagar
-        </button>
-    </div> 
-    <br>
-    <br>
+    <aside>
+
+        <h3>Tabela de Negociações</h3>
+
+        <div>
+            <!-- Tabela de negociações -->
+            <div id="negociacoesView"></div>
     
-    <!-- Tabela de negociações -->
-    <div id="negociacoesView"></div>
+            <!-- botão 'apagar' lista de negociações. -->
+            <button id="botao-apaga" onclick="negociacaoController.apaga()" class="btn btn-warning btn-sm btn-block" type="button">Apagar lista de negociações</button>
+        </div>
+    </aside>
+
 
 
     
