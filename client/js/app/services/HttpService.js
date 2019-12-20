@@ -38,7 +38,7 @@ class HttpService {
     post(url, dado) {
 
         return new Promise((resolve, reject) => {
-            let xhr = XMLHttpRequest();
+            let xhr = new XMLHttpRequest();
 
             xhr.open("POST", url, true);
             xhr.setRequestHeader("content-type", "application/json");
