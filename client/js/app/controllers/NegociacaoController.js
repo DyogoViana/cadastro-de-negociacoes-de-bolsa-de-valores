@@ -76,11 +76,17 @@ class NegociacaoController {
 
         service
          .obterNegociacoes()
-         .then(negociacoes => {
-            negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
+         .then(negociacoes =>
+            negociacoes.filter(negociacao => 
+            !this._listaNegociacoes.negociacoes.some(negociacaoExistente =>
+                JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)))
+            )
+         .then(negociacoes => negociacoes.forEach(negociacao => {
+            this._listaNegociacoes.adiciona(negociacao);
+
             this._mensagem.texto = "Negociações do período importadas com sucesso."; 
             console.log("Negociações do perído importadas com sucesso, usando Promise."); 
-         })
+         }))
          .catch(erro => this._mensagem.texto = erro);
     }
 
