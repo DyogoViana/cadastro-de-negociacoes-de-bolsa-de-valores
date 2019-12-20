@@ -38,22 +38,37 @@ class NegociacaoController {
     adiciona(event) {
         event.preventDefault();
         
-        this._listaNegociacoes.adiciona(this._criaNegociacao()); // Lista as negociações.
-        this._mensagem.texto = "Negociação adicionada com sucesso.";
-        this._limpaFormulario();
+        ConnectionFactory
+         .getConnection()
+         .then(connection => {
+
+             let negociacao = this._criaNegociacao();
+
+             new NegociacaoDAO(connection)
+              .adiciona(negociacao)
+              .then(() => {
+
+                  this._listaNegociacoes.adiciona(negociacao); // Cria lista as negociações.
+                  this._mensagem.texto = "Negociação adicionada com sucesso.";
+                  this._limpaFormulario();
+              });
+         })
+         .catch(erro => this_.mensagem.texto = erro);
     }
 
     // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
     importaNegociacoes() {
 
         let service = new NegociacaoService();
+
         service
          .obterNegociacoes()
          .then(negociacoes => {
             negociacoes.forEach(negociacao => this._listaNegociacoes.adiciona(negociacao));
             this._mensagem.texto = "Negociações do período importadas com sucesso."; 
             console.log("Negociações do perído importadas com sucesso, usando Promise."); 
-         }).catch(erro => this._mensagem.texto = erro);
+         })
+         .catch(erro => this._mensagem.texto = erro);
     }
 
     // Apaga a tabela de negociações.
@@ -67,8 +82,8 @@ class NegociacaoController {
     _criaNegociacao() {
         return new Negociacao (
             DateHelper.textoParaData(this._inputData.value),
-            this._inputQuantidade.value,
-            this._inputValor.value
+            parseInt(this._inputQuantidade.value),
+            parseFloat(this._inputValor.value)
         );
     }
 
