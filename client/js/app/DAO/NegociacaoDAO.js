@@ -28,4 +28,64 @@ class NegociacaoDAO {
              };
         });
     }
+
+    // Lista todas as negociações na view.
+    listaTodos() {
+
+        return new Promise((resolve, reject) => {
+
+            let cursor = this._connection
+             .transaction([this._store],'readwrite')
+             .objectStore(this._store)
+             .openCursor();
+
+            let negociacoes = [];
+
+            cursor.onsuccess = event => {
+                 let atual = event.target.result;
+
+                 if(atual) { // Se o ponteiro existir, ele pega o dado.
+                     let dado = atual.value;
+
+                     negociacoes.push(new Negociacao((dado._data), dado._quantidade, dado._valor));
+
+                     atual.continue();
+
+                 } else { 
+                    resolve(negociacoes);
+                 }
+            };
+
+            cursor.onerror = event => {
+                console.log(event.target.error);
+                reject("Não foi posível listar as negociações.");
+            };
+        });
+    }
 }
+
+
+
+
+
+
+
+
+
+
+
+/*
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+
+
+    # Anotações
+
+    - O 'cursor' é o responsável por passear pelos dados da Object Store. Ele tem um ponteiro para o primeiro, segundo e os demais elementos ordenados.
+
+    - 
+
+
+-------------------------------------------------------------------------
+-------------------------------------------------------------------------
+*/

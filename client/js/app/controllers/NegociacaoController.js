@@ -22,6 +22,17 @@ class NegociacaoController {
             new Mensagem(), // modelo.
             new MensagemView($("#mensagemView")), // view.
             "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
+
+        // Cria uma conexão e lista as negociações na view.
+        ConnectionFactory
+         .getConnection()
+         .then(connection => new NegociacaoDAO(connection))
+         .then(DAO => DAO.listaTodos())
+         .then(negociacoes => {
+             negociacoes.forEach(negociacao => {
+                 this._listaNegociacoes.adiciona(negociacao);
+             });
+         })
     }
 
     // Ordena a tabela. 
