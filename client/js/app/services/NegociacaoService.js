@@ -121,7 +121,7 @@ class NegociacaoService {
             
             return ConnectionFactory
              .getConnection()
-             .then(connection => new NegociacaoDAO(connection))
+             .then(connection => new NegociacaoDAO  (connection))
              .then(DAO => DAO.apagaTodos())
              .then(() => "Negociações apagadas com sucesso.")
 
@@ -138,7 +138,7 @@ class NegociacaoService {
              .then(negociacoes =>
                 negociacoes.filter(negociacao =>
                     !listaAtual.some(negociacaoExistente =>
-                        JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente))
+                        negociacao.isEquals(negociacaoExistente)
                 )
              )
              .catch(erro => {
