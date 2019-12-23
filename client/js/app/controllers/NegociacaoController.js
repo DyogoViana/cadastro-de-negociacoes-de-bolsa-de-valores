@@ -77,20 +77,13 @@ class NegociacaoController {
     // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
     importaNegociacoes() {
 
-        let service = this._service;
-
-        service
-         .obterNegociacoes()
+        this._service
+         .importa(this._listaNegociacoes.negociacoes)
          .then(negociacoes =>
-            negociacoes.filter(negociacao => 
-            !this._listaNegociacoes.negociacoes.some(negociacaoExistente =>
-                JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente)))
-            )
-         .then(negociacoes => negociacoes.forEach(negociacao => {
-            this._listaNegociacoes.adiciona(negociacao);
-
-            this._mensagem.texto = "Negociações do período importadas com sucesso."; 
-            console.log("Negociações do perído importadas com sucesso, usando Promise."); 
+            negociacoes.forEach(negociacao => {
+                this._listaNegociacoes.adiciona(negociacao);
+                this._mensagem.texto = "Negociações do período importadas com sucesso.";
+                console.log("Negociações do perído importadas com sucesso, usando Promise.");
          }))
          .catch(erro => this._mensagem.texto = erro);
     }

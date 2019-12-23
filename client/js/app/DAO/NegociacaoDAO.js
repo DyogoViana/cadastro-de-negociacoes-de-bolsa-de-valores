@@ -65,6 +65,7 @@ class NegociacaoDAO {
 
     // Apaga a lista de negociações da view e do banco.
     apagaTodos() {
+        
         return new Promise((resolve, reject) => {
 
             let request = this._connection

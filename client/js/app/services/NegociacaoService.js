@@ -118,6 +118,7 @@ class NegociacaoService {
 
         // Apaga uma lista de negociação.
         apaga() {
+            
             return ConnectionFactory
              .getConnection()
              .then(connection => new NegociacaoDAO(connection))
@@ -127,6 +128,22 @@ class NegociacaoService {
              .catch(erro => {
                  console.log(erro);
                  throw new Error("Não foi possível apagar as negociações.");
+             });
+        }
+
+        // Importa negociações.
+        importa(listaAtual) {
+
+            return this.obterNegociacoes()
+             .then(negociacoes =>
+                negociacoes.filter(negociacao =>
+                    !listaAtual.some(negociacaoExistente =>
+                        JSON.stringify(negociacao) == JSON.stringify(negociacaoExistente))
+                )
+             )
+             .catch(erro => {
+                 console.log(erro);
+                 throw new Error("Não foi possível importar as negociações.");
              });
         }
     }
