@@ -82,6 +82,19 @@ class NegociacaoService {
                 return negociacoes;
             }).catch(erro => { throw new Error(erro) });
         }
+
+        // cadastra uma nova negociação e adiciona no 'NegociacaoController'.
+        cadastra(negociacao) {
+            
+            return ConnectionFactory
+             .getConnection()
+             .then(connection => new NegociacaoDAO(connection))
+             .then(DAO => DAO.adiciona(negociacao))
+             .then(() => "Negociação adicionada com sucesso.")
+             .catch(erro => {
+                 throw new Error("Não foi possível adicionar uma negociação.")
+             });
+        }
     }
     
 

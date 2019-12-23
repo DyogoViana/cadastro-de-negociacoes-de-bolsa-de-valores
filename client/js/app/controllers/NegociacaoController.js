@@ -23,29 +23,29 @@ class NegociacaoController {
             new MensagemView($("#mensagemView")), // view.
             "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
         
-            
-        this._iniciacaoAutomatica();
-            
-        }
+        this._iniciacaoAutomatica();        
+    }
         
-        _iniciacaoAutomatica() {
-            // Cria uma conexão e lista as negociações na view.
-            ConnectionFactory
-             .getConnection()
-             .then(connection => new NegociacaoDAO(connection))
-             .then(DAO => DAO.listaTodos())
-             .then(negociacoes => {
-                negociacoes.forEach(negociacao => {
-                    this._listaNegociacoes.adiciona(negociacao);
-                });
-             })
-             .catch(erro => this.mensagem.texto = erro);
-            
-            // Imposrta automaticamente a tabela em períodos de tempo determinados.
-            setInterval(() => {
-                this.importaNegociacoes();
-            }, 3000);
-        }
+
+    
+    _iniciacaoAutomatica() {
+        // Cria uma conexão e lista as negociações na view.
+        ConnectionFactory
+            .getConnection()
+            .then(connection => new NegociacaoDAO(connection))
+            .then(DAO => DAO.listaTodos())
+            .then(negociacoes => {
+            negociacoes.forEach(negociacao => {
+                this._listaNegociacoes.adiciona(negociacao);
+            });
+            })
+            .catch(erro => this.mensagem.texto = erro);
+        
+        // Imposrta automaticamente a tabela em períodos de tempo determinados.
+        setInterval(() => {
+            this.importaNegociacoes();
+        }, 3000);
+    }
 
     // Ordena a tabela. 
     ordena(coluna) {
@@ -60,24 +60,18 @@ class NegociacaoController {
     // Adiciona uma nova lista de negociação.
     adiciona(event) {
         event.preventDefault();
-        
-        ConnectionFactory
-         .getConnection()
-         .then(connection => {
 
-             let negociacao = this._criaNegociacao();
+        let negociacao = this._criaNegociacao();
 
-             new NegociacaoDAO(connection)
-              .adiciona(negociacao)
-              .then(() => {
-
-                  this._listaNegociacoes.adiciona(negociacao); // Cria lista as negociações.
-                  this._mensagem.texto = "Negociação adicionada com sucesso.";
-                  console.log("Negociação adicionada com sucesso.");
-                  this._limpaFormulario();
-              });
+        new NegociacaoService()
+         .cadastra(negociacao)
+         .then(mensagem => {
+             this._listaNegociacoes.adiciona(negociacao);
+             this._mensagem.texto = mensagem;
+             console.log("Negociação adicionada com sucesso.");
+             this._limpaFormulario();
          })
-         .catch(erro => this_.mensagem.texto = erro);
+         .catch(erro => this._mensagem.texto = erro);
     }
 
     // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
