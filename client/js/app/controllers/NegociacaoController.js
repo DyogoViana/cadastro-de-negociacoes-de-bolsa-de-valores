@@ -23,6 +23,8 @@ class NegociacaoController {
             new MensagemView($("#mensagemView")), // view.
             "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
         
+        this._service = new NegociacaoService();
+        
         this._iniciacaoAutomatica();        
     }
         
@@ -30,21 +32,19 @@ class NegociacaoController {
     
     _iniciacaoAutomatica() {
         // Cria uma conexão e lista as negociações na view.
-        ConnectionFactory
-            .getConnection()
-            .then(connection => new NegociacaoDAO(connection))
-            .then(DAO => DAO.listaTodos())
-            .then(negociacoes => {
-            negociacoes.forEach(negociacao => {
-                this._listaNegociacoes.adiciona(negociacao);
-            });
-            })
-            .catch(erro => this.mensagem.texto = erro);
+        this._service
+         .lista()
+         .then(negociacoes =>
+             negociacoes.forEach(negociacao =>
+                 this._listaNegociacoes.adiciona(negociacao)))
+         .catch(erro => {
+             console.log(erro);
+             this._mensagem.texto = erro;
+         })
         
-        // Imposrta automaticamente a tabela em períodos de tempo determinados.
-        setInterval(() => {
+         setInterval(() => {
             this.importaNegociacoes();
-        }, 3000);
+        }, 3000); // Intervalos onde são importadas as impostações das negociações.
     }
 
     // Ordena a tabela. 
@@ -63,7 +63,7 @@ class NegociacaoController {
 
         let negociacao = this._criaNegociacao();
 
-        new NegociacaoService()
+        this._service
          .cadastra(negociacao)
          .then(mensagem => {
              this._listaNegociacoes.adiciona(negociacao);
@@ -77,7 +77,7 @@ class NegociacaoController {
     // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
     importaNegociacoes() {
 
-        let service = new NegociacaoService();
+        let service = this._service;
 
         service
          .obterNegociacoes()
@@ -97,16 +97,14 @@ class NegociacaoController {
 
     // Apaga a tabela de negociações na view e no banco.
     apaga() {
-        ConnectionFactory
-         .getConnection()
-         .then(connection => new NegociacaoDAO(connection))
-         .then(DAO => DAO.apagaTodos())
+        this._service
+         .apaga()
          .then(mensagem => {
-
              this._listaNegociacoes.esvaziaTabela();
              this._mensagem.texto = mensagem;
              console.log("Negociações apagadas com sucesso.");  
-         });
+         })
+         .catch(erro => this._mensagem.texto = erro);
     }
 
     //cria uma negociação.
