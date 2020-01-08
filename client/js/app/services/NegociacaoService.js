@@ -1,5 +1,4 @@
-// NegociacaoService.js
-
+// NegoviacaoService.js
 
 
 
