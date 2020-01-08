@@ -48,7 +48,6 @@ class NegociacaoDAO {
                      let dado = atual.value;
 
                      negociacoes.push(new Negociacao((dado._data), dado._quantidade, dado._valor));
-
                      atual.continue();
 
                  } else { 

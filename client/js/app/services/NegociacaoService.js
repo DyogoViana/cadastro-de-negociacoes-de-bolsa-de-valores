@@ -138,7 +138,7 @@ class NegociacaoService {
              .then(negociacoes =>
                 negociacoes.filter(negociacao =>
                     !listaAtual.some(negociacaoExistente =>
-                        negociacao.isEquals(negociacaoExistente)
+                        negociacao.isEquals(negociacaoExistente))
                 )
              )
              .catch(erro => {
