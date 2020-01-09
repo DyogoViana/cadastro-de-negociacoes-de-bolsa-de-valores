@@ -157,3 +157,4 @@ var NegociacaoController = function () {
         lista.sort((a, b) => a - b);  
         Se o valor retornado for 0 não há alteração a ser feita, se o valor retornado for positivo, 'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
 */
+//# sourceMappingURL=NegociacaoController.js.map

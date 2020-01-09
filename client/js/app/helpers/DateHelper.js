@@ -50,3 +50,4 @@ var DateHelper = function () {
     - Agora com o static o 'DateHelper' pode ser chamado como uma class. Assim evita repetição.
 
 */
+//# sourceMappingURL=DateHelper.js.map

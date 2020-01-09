@@ -19,3 +19,4 @@ var Bind = function Bind(model, view) {
     view.update(model);
     return proxy;
 };
+//# sourceMappingURL=Bind.js.map
