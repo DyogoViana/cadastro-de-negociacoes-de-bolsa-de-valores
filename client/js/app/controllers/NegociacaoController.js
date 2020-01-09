@@ -1,128 +1,150 @@
+"use strict";
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 // NegociacaoController.js
 
 
-class NegociacaoController {
-    
-    constructor() {
+var NegociacaoController = function () {
+    function NegociacaoController() {
+        _classCallCheck(this, NegociacaoController);
 
-        let $ = document.querySelector.bind(document);
-    
+        var $ = document.querySelector.bind(document);
+
         this._inputData = $("#data");
         this._inputQuantidade = $("#quantidade");
         this._inputValor = $("#valor");
 
         // Proxy para criação da trap no 'adiciona' e 'esvazia'.
-        this._listaNegociacoes = new Bind(
-            new ListaNegociacoes(), // modelo
-            new NegociacoesView($("#negociacoesView")), // view.
-            "adiciona", "esvaziaTabela", "ordena", "inverteOrdem"); // Condição para atualizar. Props que vão disparar a 'View'.
+        this._listaNegociacoes = new Bind(new ListaNegociacoes(), // modelo
+        new NegociacoesView($("#negociacoesView")), // view.
+        "adiciona", "esvaziaTabela", "ordena", "inverteOrdem"); // Condição para atualizar. Props que vão disparar a 'View'.
 
         // Mensagem que aparece ao usuário.
-        this._mensagem = new Bind(
-            new Mensagem(), // modelo.
-            new MensagemView($("#mensagemView")), // view.
-            "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
-        
+        this._mensagem = new Bind(new Mensagem(), // modelo.
+        new MensagemView($("#mensagemView")), // view.
+        "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
+
         this._service = new NegociacaoService();
-        
-        this._iniciacaoAutomatica();        
-    }
-        
 
-    
-    _iniciacaoAutomatica() {
-        // Cria uma conexão e lista as negociações na view.
-        this._service
-         .lista()
-         .then(negociacoes =>
-             negociacoes.forEach(negociacao =>
-                 this._listaNegociacoes.adiciona(negociacao)))
-         .catch(erro => {
-             console.log(erro);
-             this._mensagem.texto = erro;
-         })
-        
-         setInterval(() => {
-            this.importaNegociacoes();
-        }, 3000); // Intervalos onde são importadas as impostações das negociações.
+        this._iniciacaoAutomatica();
     }
 
-    // Ordena a tabela. 
-    ordena(coluna) {
-        if (this._ordemAtual == coluna) {
-            this._listaNegociacoes.inverteOrdem();
-        } else {
-            this._listaNegociacoes.ordena((a, b) => a[coluna] -b[coluna]);
+    _createClass(NegociacaoController, [{
+        key: "_iniciacaoAutomatica",
+        value: function _iniciacaoAutomatica() {
+            var _this = this;
+
+            // Cria uma conexão e lista as negociações na view.
+            this._service.lista().then(function (negociacoes) {
+                return negociacoes.forEach(function (negociacao) {
+                    return _this._listaNegociacoes.adiciona(negociacao);
+                });
+            }).catch(function (erro) {
+                console.log(erro);
+                _this._mensagem.texto = erro;
+            });
+
+            setInterval(function () {
+                _this.importaNegociacoes();
+            }, 3000); // Intervalos onde são importadas as impostações das negociações.
         }
-        this._ordemAtual = coluna;
-    }
 
-    // Adiciona uma nova lista de negociação.
-    adiciona(event) {
-        event.preventDefault();
+        // Ordena a tabela. 
 
-        let negociacao = this._criaNegociacao();
+    }, {
+        key: "ordena",
+        value: function ordena(coluna) {
+            if (this._ordemAtual == coluna) {
+                this._listaNegociacoes.inverteOrdem();
+            } else {
+                this._listaNegociacoes.ordena(function (a, b) {
+                    return a[coluna] - b[coluna];
+                });
+            }
+            this._ordemAtual = coluna;
+        }
 
-        this._service
-         .cadastra(negociacao)
-         .then(mensagem => {
-             this._listaNegociacoes.adiciona(negociacao);
-             this._mensagem.texto = mensagem;
-             console.log("Negociação adicionada com sucesso.");
-             this._limpaFormulario();
-         })
-         .catch(erro => this._mensagem.texto = erro);
-    }
+        // Adiciona uma nova lista de negociação.
 
-    // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
-    importaNegociacoes() {
+    }, {
+        key: "adiciona",
+        value: function adiciona(event) {
+            var _this2 = this;
 
-        this._service
-         .importa(this._listaNegociacoes.negociacoes)
-         .then(negociacoes =>
-            negociacoes.forEach(negociacao => {
-                this._listaNegociacoes.adiciona(negociacao);
-                this._mensagem.texto = "Negociações do período importadas com sucesso.";
-                console.log("Negociações do perído importadas com sucesso, usando Promise.");
-         }))
-         .catch(erro => this._mensagem.texto = erro);
-    }
+            event.preventDefault();
 
-    // Apaga a tabela de negociações na view e no banco.
-    apaga() {
-        this._service
-         .apaga()
-         .then(mensagem => {
-             this._listaNegociacoes.esvaziaTabela();
-             this._mensagem.texto = mensagem;
-             console.log("Negociações apagadas com sucesso.");  
-         })
-         .catch(erro => this._mensagem.texto = erro);
-    }
+            var negociacao = this._criaNegociacao();
 
-    //cria uma negociação.
-    _criaNegociacao() {
-        return new Negociacao (
-            DateHelper.textoParaData(this._inputData.value),
-            parseInt(this._inputQuantidade.value),
-            parseFloat(this._inputValor.value)
-        );
-    }
+            this._service.cadastra(negociacao).then(function (mensagem) {
+                _this2._listaNegociacoes.adiciona(negociacao);
+                _this2._mensagem.texto = mensagem;
+                console.log("Negociação adicionada com sucesso.");
+                _this2._limpaFormulario();
+            }).catch(function (erro) {
+                return _this2._mensagem.texto = erro;
+            });
+        }
 
-    // Limpa o formulário e o foco vai para a data, após adicionar uma negociação.
-    _limpaFormulario() {
-        this._inputData.value = "";
-        this._inputQuantidade.value = 1;
-        this._inputValor.value = 0.0;
+        // Importando negociações via Ajax, com o padrão de projeto 'Promise'.
 
-        this._inputData.focus();
-    }
-}
+    }, {
+        key: "importaNegociacoes",
+        value: function importaNegociacoes() {
+            var _this3 = this;
 
+            this._service.importa(this._listaNegociacoes.negociacoes).then(function (negociacoes) {
+                return negociacoes.forEach(function (negociacao) {
+                    _this3._listaNegociacoes.adiciona(negociacao);
+                    _this3._mensagem.texto = "Negociações do período importadas com sucesso.";
+                    console.log("Negociações do perído importadas com sucesso, usando Promise.");
+                });
+            }).catch(function (erro) {
+                return _this3._mensagem.texto = erro;
+            });
+        }
 
+        // Apaga a tabela de negociações na view e no banco.
 
+    }, {
+        key: "apaga",
+        value: function apaga() {
+            var _this4 = this;
 
+            this._service.apaga().then(function (mensagem) {
+                _this4._listaNegociacoes.esvaziaTabela();
+                _this4._mensagem.texto = mensagem;
+                console.log("Negociações apagadas com sucesso.");
+            }).catch(function (erro) {
+                return _this4._mensagem.texto = erro;
+            });
+        }
 
+        //cria uma negociação.
+
+    }, {
+        key: "_criaNegociacao",
+        value: function _criaNegociacao() {
+            return new Negociacao(DateHelper.textoParaData(this._inputData.value), parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
+        }
+
+        // Limpa o formulário e o foco vai para a data, após adicionar uma negociação.
+
+    }, {
+        key: "_limpaFormulario",
+        value: function _limpaFormulario() {
+            this._inputData.value = "";
+            this._inputQuantidade.value = 1;
+            this._inputValor.value = 0.0;
+
+            this._inputData.focus();
+        }
+    }]);
+
+    return NegociacaoController;
+}();
 
 /*
     # Anotações:
