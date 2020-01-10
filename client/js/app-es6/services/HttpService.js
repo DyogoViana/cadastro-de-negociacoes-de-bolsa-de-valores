@@ -13,7 +13,7 @@
 */
 
 
-class HttpService {
+export class HttpService {
 
     _handleErros(resposta) {
         if (!resposta.ok) throw new Error(resposta.statusText); // se der erro.

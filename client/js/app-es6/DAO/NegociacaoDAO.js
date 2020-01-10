@@ -1,8 +1,9 @@
 // NegociacaoDAO.js -- DAO 'Data Access Object'.
 
 
+import { Negociacao } from "../models/Negociacao";
 
-class NegociacaoDAO {
+export class NegociacaoDAO {
 
     constructor(connection) {
         this._connection = connection;

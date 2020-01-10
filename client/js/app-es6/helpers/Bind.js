@@ -1,8 +1,9 @@
 // Bind.js
 
 
+import { ProxyFactory } from "../services/ProxyFactory";
 
-class Bind {
+export class Bind {
 
     constructor(model, view, ...properties) {
         

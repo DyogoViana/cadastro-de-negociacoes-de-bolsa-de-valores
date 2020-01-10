@@ -1,8 +1,10 @@
 // ProxyFactory.js
 
 
+
+
 // Reaproveita o modelo de Proxy.
-class ProxyFactory {
+export class ProxyFactory {
 
     static  novaProxy(objeto, propriedades, acao) {
         return new Proxy(objeto, {

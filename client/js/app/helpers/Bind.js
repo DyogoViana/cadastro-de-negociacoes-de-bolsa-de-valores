@@ -1,18 +1,23 @@
 "use strict";
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+exports.Bind = undefined;
 
-// Bind.js
+var _ProxyFactory = require("../services/ProxyFactory");
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } } // Bind.js
 
 
-var Bind = function Bind(model, view) {
+var Bind = exports.Bind = function Bind(model, view) {
     _classCallCheck(this, Bind);
 
     for (var _len = arguments.length, properties = Array(_len > 2 ? _len - 2 : 0), _key = 2; _key < _len; _key++) {
         properties[_key - 2] = arguments[_key];
     }
 
-    var proxy = ProxyFactory.novaProxy(model, properties, function (model) {
+    var proxy = _ProxyFactory.ProxyFactory.novaProxy(model, properties, function (model) {
         view.update(model);
     });
 

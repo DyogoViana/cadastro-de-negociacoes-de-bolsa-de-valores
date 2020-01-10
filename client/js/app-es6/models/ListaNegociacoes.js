@@ -4,7 +4,7 @@
 
 
 // Cria lista de negociações.
-class ListaNegociacoes {
+export class ListaNegociacoes {
 
     constructor() {
 

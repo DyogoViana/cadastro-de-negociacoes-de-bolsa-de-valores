@@ -1,11 +1,37 @@
 "use strict";
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }(); // NegociacaoController.js
+
+
+// Importações dos Models.
+
+
+// Importações das Views.
+
+
+// Importação dos Services.
+
+
+// Importações dos Helpers.
+
+
+var _ListaNegociacoes = require("../models/ListaNegociacoes");
+
+var _Mensagem = require("../models/Mensagem");
+
+var _Negociacao = require("../models/Negociacao");
+
+var _NegociacoesView = require("../views/NegociacoesView");
+
+var _MensagemView = require("../views/MensagemView");
+
+var _NegociacaoService = require("../services/NegociacaoService");
+
+var _DateHelper = require("../helpers/DateHelper");
+
+var _Bind = require("../helpers/Bind");
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-// NegociacaoController.js
-
 
 var NegociacaoController = function () {
     function NegociacaoController() {
@@ -18,16 +44,16 @@ var NegociacaoController = function () {
         this._inputValor = $("#valor");
 
         // Proxy para criação da trap no 'adiciona' e 'esvazia'.
-        this._listaNegociacoes = new Bind(new ListaNegociacoes(), // modelo
-        new NegociacoesView($("#negociacoesView")), // view.
+        this._listaNegociacoes = new _Bind.Bind(new _ListaNegociacoes.ListaNegociacoes(), // modelo
+        new _NegociacoesView.NegociacoesView($("#negociacoesView")), // view.
         "adiciona", "esvaziaTabela", "ordena", "inverteOrdem"); // Condição para atualizar. Props que vão disparar a 'View'.
 
         // Mensagem que aparece ao usuário.
-        this._mensagem = new Bind(new Mensagem(), // modelo.
-        new MensagemView($("#mensagemView")), // view.
+        this._mensagem = new _Bind.Bind(new _Mensagem.Mensagem(), // modelo.
+        new _MensagemView.MensagemView($("#mensagemView")), // view.
         "texto"); // Condição para atualizar. Props que vão disparar a 'View'.
 
-        this._service = new NegociacaoService();
+        this._service = new _NegociacaoService.NegociacaoService();
 
         this._iniciacaoAutomatica();
     }
@@ -127,7 +153,7 @@ var NegociacaoController = function () {
     }, {
         key: "_criaNegociacao",
         value: function _criaNegociacao() {
-            return new Negociacao(DateHelper.textoParaData(this._inputData.value), parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
+            return new _Negociacao.Negociacao(_DateHelper.DateHelper.textoParaData(this._inputData.value), parseInt(this._inputQuantidade.value), parseFloat(this._inputValor.value));
         }
 
         // Limpa o formulário e o foco vai para a data, após adicionar uma negociação.
