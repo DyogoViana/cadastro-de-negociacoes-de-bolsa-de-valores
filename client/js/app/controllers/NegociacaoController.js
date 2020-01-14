@@ -3,7 +3,7 @@
 System.register(["../models/ListaNegociacoes", "../models/Mensagem", "../models/Negociacao", "../views/NegociacoesView", "../views/MensagemView", "../services/NegociacaoService", "../helpers/DateHelper", "../helpers/Bind"], function (_export, _context) {
     "use strict";
 
-    var ListaNegociacoes, Mensagem, Negociacao, NegociacoesView, MensagemView, NegociacaoService, DateHelper, Bind, _createClass, NegociacaoController;
+    var ListaNegociacoes, Mensagem, Negociacao, NegociacoesView, MensagemView, NegociacaoService, DateHelper, Bind, _createClass, NegociacaoController, negociacaoController;
 
     function _classCallCheck(instance, Constructor) {
         if (!(instance instanceof Constructor)) {
@@ -48,7 +48,7 @@ System.register(["../models/ListaNegociacoes", "../models/Mensagem", "../models/
                 };
             }();
 
-            _export("NegociacaoController", NegociacaoController = function () {
+            NegociacaoController = function () {
                 function NegociacaoController() {
                     _classCallCheck(this, NegociacaoController);
 
@@ -167,9 +167,26 @@ System.register(["../models/ListaNegociacoes", "../models/Mensagem", "../models/
                 }]);
 
                 return NegociacaoController;
-            }());
+            }();
 
-            _export("NegociacaoController", NegociacaoController);
+            negociacaoController = new NegociacaoController();
+            function currentInstance() {
+                return negociacaoController;
+            }
+
+            /*
+                # Anotações:
+            
+                - spread operator -- São as reticências antes do _this_. indica que ele desmenbrará o array e posiciona na mesma ordem no construtor.
+            
+                - item - indice % 2 -- ler item, menos indice, módulo dois.
+            
+                - explicando a ordem das colunas: 
+                    lista.sort((a, b) => a - b);  
+                    Se o valor retornado for 0 não há alteração a ser feita, se o valor retornado for positivo, 'b' deve vir antes de 'a', se o valor for negativo, 'a' deve vir antes de 'b'.
+            */
+
+            _export("currentInstance", currentInstance);
         }
     };
 });

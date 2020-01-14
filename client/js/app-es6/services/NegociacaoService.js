@@ -142,11 +142,10 @@ export class NegociacaoService {
         importa(listaAtual) {
 
             return this.obterNegociacoes()
-             .then(negociacoes =>
-                negociacoes.filter(negociacao =>
+             .then(negociacoes => 
+                negociacoes.filter(negociacao => 
                     !listaAtual.some(negociacaoExistente =>
-                        negociacao.isEquals(negociacaoExistente))
-                )
+                        negociacao.isEquals(negociacaoExistente)))
              )
              .catch(erro => {
                  console.log(erro);
@@ -154,6 +153,8 @@ export class NegociacaoService {
              });
         }
     }
+
+    
     
 
 

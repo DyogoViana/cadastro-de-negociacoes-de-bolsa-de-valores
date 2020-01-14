@@ -47,6 +47,11 @@ System.register([], function (_export, _context) {
 
 
                 _createClass(Negociacao, [{
+                    key: "isEquals",
+                    value: function isEquals(outraNegociacao) {
+                        return JSON.stringify(this) == JSON.stringify(outraNegociacao);
+                    }
+                }, {
                     key: "volume",
                     get: function get() {
                         return this._quantidade * this._valor;
